@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Loan {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  loanType      String
+  loanNumber    Int
+  amount        Int
+  interest      Float
+  loanTermYears Float
+  startDate     DateTime @default(now()) @db.Date
+  createDate    DateTime @default(now()) @db.Date
+  modifiedDate  DateTime @default(now()) @db.Date
+  isDeleted     Boolean  @default(false)
+}
+
+model Customer {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName    String
+  middleName   String?
+  lastName     String?
+  dateOfBirth  DateTime @db.Date
+  createDate   DateTime @default(now()) @db.Date
+  modifiedDate DateTime @default(now()) @db.Date
+  isDeleted    Boolean  @default(false)
+}
+
+model Ledger {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  paymentAmount Int
+  interest      Float
+  principal     Float
+  createDate    DateTime @default(now()) @db.Date
+  modifiedDate  DateTime @default(now()) @db.Date
+  isDeleted     Boolean  @default(false)
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  pwdHash   String
+  active    Boolean  @default(true)
+  photoUrl  String   @default("")
+  createdAt DateTime @default(now())
+}
